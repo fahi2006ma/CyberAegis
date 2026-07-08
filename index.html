@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CyberAegis — AI Cybercrime First Responder</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --blue-start:#4F6EF7;
+  --blue-end:#7C3AED;
+  --soft-bg:#F0F4FF;
+  --card-bg:#FFFFFF;
+  --sidebar-bg:#F8F6FF;
+  --border:#E4E8FF;
+  --text-primary:#1A1A2E;
+  --text-secondary:#5A6080;
+  --text-muted:#9CA3AF;
+  --shadow:0 2px 16px rgba(79,110,247,0.10);
+}
+body{font-family:'Inter',sans-serif;background:var(--soft-bg);color:var(--text-primary);height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
+/* NAVBAR */
+.navbar{background:linear-gradient(135deg,#4F6EF7 0%,#7C3AED 100%);padding:0 28px;height:68px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 20px rgba(79,110,247,0.3);flex-shrink:0;position:relative;overflow:hidden;}
+.navbar::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:rgba(255,255,255,0.06);border-radius:50%;}
+.navbar::after{content:'';position:absolute;bottom:-60px;left:200px;width:140px;height:140px;background:rgba(255,255,255,0.04);border-radius:50%;}
+.logo-wrap{width:44px;height:44px;background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;}
+.logo-svg{width:26px;height:26px;}
+.brand{position:relative;z-index:1;}
+.brand h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.3px;}
+.brand p{font-size:12px;color:rgba(255,255,255,0.72);margin-top:1px;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
+.status-pill{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;display:flex;align-items:center;gap:6px;}
+.status-dot{width:7px;height:7px;background:#4ADE80;border-radius:50%;box-shadow:0 0 6px #4ADE80;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.helpline{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;}
+
+/* MAIN */
+.main{display:flex;flex:1;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{width:272px;flex-shrink:0;background:var(--sidebar-bg);border-right:1.5px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.sidebar-header{padding:16px 18px 10px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.sidebar-header h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;}
+.sidebar-header p{font-size:12px;color:var(--text-secondary);margin-top:2px;}
+.crime-list{padding:10px 10px 6px;overflow-y:auto;flex:1;}
+.crime-list::-webkit-scrollbar{width:4px;}
+.crime-list::-webkit-scrollbar-thumb{background:#D1D5F0;border-radius:10px;}
+
+.crime-btn{width:100%;background:var(--card-bg);border:1.5px solid var(--border);border-radius:12px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all 0.18s ease;text-align:left;}
+.crime-btn:hover{border-color:#4F6EF7;background:linear-gradient(135deg,rgba(79,110,247,0.06),rgba(124,58,237,0.06));transform:translateX(3px);box-shadow:0 2px 12px rgba(79,110,247,0.12);}
+.crime-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.crime-text .ct{font-size:12.5px;font-weight:600;color:var(--text-primary);}
+.crime-text .cs{font-size:11px;color:var(--text-muted);margin-top:1px;}
+
+.sidebar-footer{padding:12px 14px;background:linear-gradient(135deg,rgba(79,110,247,0.07),rgba(124,58,237,0.07));border-top:1px solid var(--border);flex-shrink:0;}
+.sidebar-footer p{font-size:11px;color:var(--text-secondary);line-height:1.6;}
+.sidebar-footer strong{color:#4F6EF7;}
+
+/* CHAT AREA */
+.chat-area{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--soft-bg);}
+.chat-messages{flex:1;overflow-y:auto;padding:24px 28px;display:flex;flex-direction:column;gap:18px;background-image:radial-gradient(circle,rgba(79,110,247,0.04) 1px,transparent 1px);background-size:28px 28px;}
+.chat-messages::-webkit-scrollbar{width:5px;}
+.chat-messages::-webkit-scrollbar-thumb{background:#D1D5F0;border-radius:10px;}
+
+/* MESSAGES */
+.message{display:flex;gap:10px;max-width:78%;animation:fadeUp 0.3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.message.bot{align-self:flex-start;}
+.message.user{align-self:flex-end;flex-direction:row-reverse;}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:2px;}
+.bot-av{background:linear-gradient(135deg,#4F6EF7,#7C3AED);box-shadow:0 2px 10px rgba(79,110,247,0.3);}
+.user-av{background:linear-gradient(135deg,#06B6D4,#4F6EF7);box-shadow:0 2px 10px rgba(6,182,212,0.3);}
+.bubble{padding:13px 17px;border-radius:18px;font-size:13.5px;line-height:1.65;}
+.bot .bubble{background:var(--card-bg);border:1.5px solid var(--border);border-top-left-radius:4px;color:var(--text-primary);box-shadow:var(--shadow);}
+.user .bubble{background:linear-gradient(135deg,#4F6EF7,#7C3AED);border-top-right-radius:4px;color:#fff;box-shadow:0 4px 16px rgba(79,110,247,0.3);}
+.msg-meta{font-size:11px;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:4px;}
+.bot .msg-meta{padding-left:2px;}
+.user .msg-meta{justify-content:flex-end;padding-right:2px;}
+
+.law-badge{display:inline-block;background:linear-gradient(135deg,rgba(79,110,247,0.1),rgba(124,58,237,0.1));border:1px solid rgba(79,110,247,0.25);color:#4F6EF7;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;margin:5px 3px 2px 0;}
+.steps{margin-top:8px;padding-left:0;list-style:none;}
+.steps li{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text-primary);padding:3px 0;}
+.step-num{width:19px;height:19px;border-radius:50%;background:linear-gradient(135deg,#4F6EF7,#7C3AED);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+
+/* TYPING */
+.typing{display:none;align-self:flex-start;align-items:center;gap:10px;}
+.typing.visible{display:flex;animation:fadeUp 0.3s ease;}
+.typing-bubble{background:var(--card-bg);border:1.5px solid var(--border);border-radius:18px;border-top-left-radius:4px;padding:13px 17px;display:flex;gap:5px;align-items:center;box-shadow:var(--shadow);}
+.typing-bubble span{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#4F6EF7,#7C3AED);animation:bounce 1.2s infinite;}
+.typing-bubble span:nth-child(2){animation-delay:0.18s;}
+.typing-bubble span:nth-child(3){animation-delay:0.36s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:0.35;}40%{transform:translateY(-6px);opacity:1;}}
+
+/* INPUT BAR */
+.input-bar{padding:14px 22px 14px;background:var(--card-bg);border-top:1.5px solid var(--border);display:flex;gap:10px;align-items:center;box-shadow:0 -2px 16px rgba(79,110,247,0.07);}
+.input-wrap{flex:1;}
+.input-wrap input{width:100%;background:var(--soft-bg);border:1.5px solid var(--border);color:var(--text-primary);padding:12px 18px;border-radius:12px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+.input-wrap input:focus{border-color:#4F6EF7;box-shadow:0 0 0 3px rgba(79,110,247,0.1);}
+.input-wrap input::placeholder{color:var(--text-muted);}
+.send-btn{width:46px;height:46px;flex-shrink:0;background:linear-gradient(135deg,#4F6EF7,#7C3AED);border:none;border-radius:12px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(79,110,247,0.35);transition:transform 0.15s,box-shadow 0.15s;}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(79,110,247,0.45);}
+.send-btn:active{transform:scale(0.97);}
+.input-hint{font-size:11px;color:var(--text-muted);text-align:center;margin-top:6px;padding-bottom:6px;}
+
+/* WELCOME CARD */
+.welcome-card{background:linear-gradient(135deg,rgba(79,110,247,0.07),rgba(124,58,237,0.07));border:1.5px solid rgba(79,110,247,0.18);border-radius:16px;padding:16px 18px;margin-bottom:2px;}
+.welcome-card h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:5px;}
+.welcome-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo-wrap">
+    <svg class="logo-svg" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13 2L4 6.5V13C4 17.97 7.93 22.61 13 24C18.07 22.61 22 17.97 22 13V6.5L13 2Z" fill="rgba(255,255,255,0.25)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M9 13L11.5 15.5L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="brand">
+    <h1>CyberAegis</h1>
+    <p>AI-Driven Cybercrime First Responder</p>
+  </div>
+  <div class="nav-right">
+    <div class="helpline">📞 1930 Helpline</div>
+    <div class="status-pill"><span class="status-dot"></span>AI Online</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Quick Report</h3>
+      <p>Select the crime type to begin</p>
+    </div>
+    <div class="crime-list">
+
+      <button class="crime-btn" onclick="quickReport('I was scammed online and lost money through UPI or a fake website')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);">💸</div>
+        <div class="crime-text"><div class="ct">Financial Fraud</div><div class="cs">UPI, banking, fake offers</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('My account was hacked and someone accessed it without my permission')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#FEE2E2,#FECACA);">🔓</div>
+        <div class="crime-text"><div class="ct">Account Hacking</div><div class="cs">Email, social media, bank</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('Someone is harassing or threatening me online repeatedly')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#EDE9FE,#DDD6FE);">😰</div>
+        <div class="crime-text"><div class="ct">Cyber Harassment</div><div class="cs">Threats, stalking, abuse</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('My identity was stolen and someone is misusing my personal information online')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#DBEAFE,#BFDBFE);">🪪</div>
+        <div class="crime-text"><div class="ct">Identity Theft</div><div class="cs">Fake profiles, data misuse</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('I received a phishing email or a fake call asking for my OTP or bank details')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0);">📧</div>
+        <div class="crime-text"><div class="ct">Phishing / Fraud Call</div><div class="cs">OTP theft, fake links</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('Someone is blackmailing me using my photos or videos and demanding money')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#FCE7F3,#FBCFE8);">🚨</div>
+        <div class="crime-text"><div class="ct">Sextortion / Blackmail</div><div class="cs">Photo threats, extortion</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('Someone installed ransomware on my device or stole my personal data')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#FEF9C3,#FEF08A);">💻</div>
+        <div class="crime-text"><div class="ct">Ransomware / Data Theft</div><div class="cs">Locked files, stolen data</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('I was cheated by a fake online seller and did not receive my product or lost money')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#DCFCE7,#BBF7D0);">🛍️</div>
+        <div class="crime-text"><div class="ct">Online Shopping Fraud</div><div class="cs">Fake seller, no delivery</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('I was cheated by a fake loan app or fake investment or crypto scheme')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#FEE2E2,#FCA5A5);">📊</div>
+        <div class="crime-text"><div class="ct">Fake Loan / Investment</div><div class="cs">Illegal apps, crypto scam</div></div>
+      </button>
+
+      <button class="crime-btn" onclick="quickReport('I am being bullied trolled or defamed online by someone targeting me personally')">
+        <div class="crime-icon" style="background:linear-gradient(135deg,#E0E7FF,#C7D2FE);">🧠</div>
+        <div class="crime-text"><div class="ct">Cyberbullying</div><div class="cs">Trolling, defamation online</div></div>
+      </button>
+
+    </div>
+    <div class="sidebar-footer">
+      <p>🛡️ All conversations are <strong>confidential</strong>.<br/>Report at <strong>cybercrime.gov.in</strong> or call <strong>1930</strong>.</p>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="chat-area">
+    <div class="chat-messages" id="chatMessages">
+
+      <div class="welcome-card">
+        <h2>👋 Welcome to CyberAegis</h2>
+        <p>If you've been scammed, hacked, harassed, or cheated online — you're in the right place. Tell me what happened in your own words and I'll guide you step by step on what to do next, what evidence to collect, and how to report it.</p>
+      </div>
+
+      <div class="message bot">
+        <div class="avatar bot-av">🛡️</div>
+        <div>
+          <div class="bubble">
+            Hello! I'm <strong>CyberAegis</strong>, your AI cybercrime first responder.<br><br>
+            Please describe what happened to you. The more detail you share, the better I can guide you. Your information is safe here. 🙏
+          </div>
+          <div class="msg-meta">🛡️ CyberAegis • Just now</div>
+        </div>
+      </div>
+
+      <div class="message typing" id="typingIndicator">
+        <div class="avatar bot-av">🛡️</div>
+        <div class="typing-bubble"><span></span><span></span><span></span></div>
+      </div>
+
+    </div>
+
+    <div class="input-bar">
+      <div class="input-wrap">
+        <input type="text" id="userInput"
+          placeholder="Describe what happened... (e.g. I lost ₹15,000 to a fake job offer)"
+          onkeydown="if(event.key==='Enter')sendMessage()"/>
+      </div>
+      <button class="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+    <div class="input-hint">Press Enter or click ➤ to send &nbsp;•&nbsp; Powered by CyberAegis AI</div>
+  </div>
+
+</div>
+
+<script>
+function getTime(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+
+function addMessage(html,sender){
+  const container=document.getElementById('chatMessages');
+  const typing=document.getElementById('typingIndicator');
+  const msg=document.createElement('div');
+  msg.className=`message ${sender}`;
+  const botAv=`<div class="avatar bot-av">🛡️</div>`;
+  const userAv=`<div class="avatar user-av">🙋</div>`;
+  const who=sender==='bot'?'🛡️ CyberAegis':'You';
+  msg.innerHTML=`
+    ${sender==='bot'?botAv:''}
+    <div><div class="bubble">${html}</div>
+    <div class="msg-meta">${who} • ${getTime()}</div></div>
+    ${sender==='user'?userAv:''}`;
+  container.insertBefore(msg,typing);
+  container.scrollTop=container.scrollHeight;
+}
+
+function showTyping(show){
+  document.getElementById('typingIndicator').classList.toggle('visible',show);
+  document.getElementById('chatMessages').scrollTop=99999;
+}
+
+function getReply(msg){
+  const m=msg.toLowerCase();
+
+  if(m.includes('scam')||m.includes('fraud')||m.includes('money')||m.includes('upi')||m.includes('lost')||m.includes('fake job')||m.includes('invest'))
+    return `I'm sorry this happened to you. Based on what you've described, this looks like <strong>financial cybercrime</strong>.<br><br>
+    <span class="law-badge">Section 420 IPC</span><span class="law-badge">Section 66D IT Act</span><br><br>
+    <strong>Do NOT delete any messages, screenshots, or transaction records.</strong><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Note the exact amount lost and transaction ID or UTR number</li>
+      <li><span class="step-num">2</span>Screenshot all conversations with the fraudster</li>
+      <li><span class="step-num">3</span>Call your bank immediately to freeze or reverse the transaction</li>
+      <li><span class="step-num">4</span>File a complaint at cybercrime.gov.in or call 1930</li>
+    </ul><br>
+    Can you tell me — did this happen via UPI, phone call, or a fake website?`;
+
+  if(m.includes('hack')||m.includes('account')||m.includes('password')||m.includes('access'))
+    return `This sounds like <strong>unauthorized account access</strong> — a serious cybercrime in India.<br><br>
+    <span class="law-badge">Section 66 IT Act 2000</span><span class="law-badge">Section 43 IT Act</span><br><br>
+    <strong>Act immediately:</strong><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Change your password right now from a different device</li>
+      <li><span class="step-num">2</span>Enable two-factor authentication on all accounts</li>
+      <li><span class="step-num">3</span>Screenshot any unknown login locations or devices</li>
+      <li><span class="step-num">4</span>Inform the platform through their official help center</li>
+    </ul><br>
+    Which account was hacked — email, social media, or bank account?`;
+
+  if(m.includes('harass')||m.includes('threat')||m.includes('stalk')||m.includes('abuse'))
+    return `Cyber harassment and threats are <strong>punishable offences</strong> under Indian law.<br><br>
+    <span class="law-badge">Section 67 IT Act</span><span class="law-badge">Section 354D IPC</span><br><br>
+    <strong>Do NOT respond to the harasser. Here's what to do:</strong><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Screenshot every threatening message with date and time visible</li>
+      <li><span class="step-num">2</span>Note the harasser's username, phone number, or profile link</li>
+      <li><span class="step-num">3</span>Block them — but take screenshots BEFORE blocking</li>
+      <li><span class="step-num">4</span>Report to cybercrime.gov.in with your evidence</li>
+    </ul><br>
+    Are the messages coming from someone you know, or a stranger online?`;
+
+  if(m.includes('phish')||m.includes('otp')||m.includes('fake call')||m.includes('fake link')||m.includes('bank detail'))
+    return `This is a <strong>phishing or vishing (voice phishing) attack</strong> — very common in India.<br><br>
+    <span class="law-badge">Section 66C IT Act</span><span class="law-badge">Section 66D IT Act</span><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Do NOT share any more OTPs, passwords, or details</li>
+      <li><span class="step-num">2</span>If you shared bank details — call your bank immediately</li>
+      <li><span class="step-num">3</span>Save the caller's number or screenshot the fake email or link</li>
+      <li><span class="step-num">4</span>Report at Sanchar Saathi portal: sancharsaathi.gov.in</li>
+    </ul><br>
+    Did you end up sharing any OTP or password during this call or through a link?`;
+
+  if(m.includes('blackmail')||m.includes('photo')||m.includes('video')||m.includes('sextort')||m.includes('nude'))
+    return `I understand this is extremely distressing. <strong>Please know — you are not alone, and this is a crime, not your fault.</strong><br><br>
+    <span class="law-badge">Section 67A IT Act</span><span class="law-badge">Section 383 IPC</span><br><br>
+    <strong>⚠️ Do NOT pay them — it only makes things worse.</strong><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Screenshot all their threatening messages and their profile</li>
+      <li><span class="step-num">2</span>Do NOT delete the conversation — it is your evidence</li>
+      <li><span class="step-num">3</span>Report their profile on the platform for removal</li>
+      <li><span class="step-num">4</span>Call 1930 or report at cybercrime.gov.in immediately</li>
+    </ul><br>
+    The National Cyber Crime Helpline (1930) is trained for cases like this and will help you confidentially.`;
+
+  if(m.includes('identity')||m.includes('impersonat')||m.includes('fake profile')||m.includes('my name'))
+    return `Identity theft and fake profiles are a <strong>growing cybercrime</strong> in India.<br><br>
+    <span class="law-badge">Section 66C IT Act</span><span class="law-badge">Section 66D IT Act</span><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Screenshot the fake profile or impersonation immediately</li>
+      <li><span class="step-num">2</span>Note the profile URL, followers count, and any posts made</li>
+      <li><span class="step-num">3</span>Report the fake profile on the platform for removal</li>
+      <li><span class="step-num">4</span>File a complaint at cybercrime.gov.in with screenshots</li>
+    </ul><br>
+    Which platform is the fake profile on — Instagram, Facebook, or WhatsApp?`;
+
+  if(m.includes('ransomware')||m.includes('locked')||m.includes('data theft')||m.includes('stolen data'))
+    return `This sounds like a <strong>ransomware attack or data theft</strong> — a serious cybercrime.<br><br>
+    <span class="law-badge">Section 66 IT Act</span><span class="law-badge">Section 43 IT Act</span><br><br>
+    <strong>Do NOT pay any ransom — it does not guarantee recovery.</strong><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Disconnect your device from internet and WiFi immediately</li>
+      <li><span class="step-num">2</span>Do not delete or format anything — preserve the evidence</li>
+      <li><span class="step-num">3</span>Take photos of the ransom message on screen</li>
+      <li><span class="step-num">4</span>Report to CERT-In at cert-in.org.in and cybercrime.gov.in</li>
+    </ul><br>
+    Was this on your personal laptop, office computer, or mobile phone?`;
+
+  if(m.includes('shopping')||m.includes('seller')||m.includes('delivery')||m.includes('product')||m.includes('order'))
+    return `This is <strong>online shopping fraud</strong> — very common on fake websites and social media pages.<br><br>
+    <span class="law-badge">Section 420 IPC</span><span class="law-badge">Section 66D IT Act</span><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Screenshot the seller's profile, product listing, and all chats</li>
+      <li><span class="step-num">2</span>Save the payment receipt, order confirmation, and transaction ID</li>
+      <li><span class="step-num">3</span>Report the seller on the platform — Instagram, Facebook, etc.</li>
+      <li><span class="step-num">4</span>File complaint at cybercrime.gov.in with all evidence</li>
+    </ul><br>
+    Did this happen on Instagram, a fake website, or an e-commerce platform like Flipkart or Amazon?`;
+
+  if(m.includes('loan app')||m.includes('loan')||m.includes('crypto')||m.includes('trading')||m.includes('returns')||m.includes('invest'))
+    return `This is a <strong>fake loan app or investment scam</strong> — one of the fastest growing cybercrimes in India.<br><br>
+    <span class="law-badge">Section 420 IPC</span><span class="law-badge">RBI Guidelines</span><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Screenshot all conversations, payment receipts, and app details</li>
+      <li><span class="step-num">2</span>Note the app name, website URL, and any phone numbers used</li>
+      <li><span class="step-num">3</span>Report the app to RBI at rbi.org.in/Scripts/Complaints</li>
+      <li><span class="step-num">4</span>File complaint at cybercrime.gov.in and call 1930</li>
+    </ul><br>
+    How much money did you invest or lose, and was this through an app or a website?`;
+
+  if(m.includes('bully')||m.includes('troll')||m.includes('defam')||m.includes('rumour')||m.includes('spread')||m.includes('targeting'))
+    return `<strong>Cyberbullying and online defamation</strong> are punishable offences under Indian law.<br><br>
+    <span class="law-badge">Section 66A IT Act</span><span class="law-badge">Section 499 IPC</span><br><br>
+    <ul class="steps">
+      <li><span class="step-num">1</span>Screenshot every post, comment, or message targeting you</li>
+      <li><span class="step-num">2</span>Note the bully's username, profile link, and follower count</li>
+      <li><span class="step-num">3</span>Report the content on the platform for removal</li>
+      <li><span class="step-num">4</span>File a complaint at cybercrime.gov.in with all screenshots</li>
+    </ul><br>
+    Is the bullying happening on one platform or across multiple platforms?`;
+
+  return `Thank you for reaching out. I want to make sure I guide you correctly.<br><br>
+  Could you share a few more details?<br><br>
+  <ul class="steps">
+    <li><span class="step-num">•</span>Did this involve money, your personal accounts, or threatening messages?</li>
+    <li><span class="step-num">•</span>Where did it happen — WhatsApp, email, a website, or a phone call?</li>
+    <li><span class="step-num">•</span>When did this happen — recently or some time ago?</li>
+  </ul><br>
+  The more you share, the better I can identify the crime and guide your next steps. 🙏`;
+}
+
+function sendMessage(){
+  const input=document.getElementById('userInput');
+  const text=input.value.trim();
+  if(!text)return;
+  addMessage(text,'user');
+  input.value='';
+  showTyping(true);
+  setTimeout(async()=>{
+  try{
+    const response = await fetch('http://127.0.0.1:8000/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:text})
+    });
+    const data = await response.json();
+    showTyping(false);
+    addMessage(data.reply,'bot');
+  } catch(err){
+    showTyping(false);
+    addMessage('Sorry, I could not connect to the server. Please make sure the backend is running.','bot');
+  }
+},500);
+}
+
+function quickReport(text){
+  document.getElementById('userInput').value=text;
+  sendMessage();
+}
+</script>
+</body>
+</html>
