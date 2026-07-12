@@ -8,8 +8,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --blue-start:#4F6EF7;
-  --blue-end:#7C3AED;
+  --blue:#4F6EF7;
+  --purple:#7C3AED;
   --soft-bg:#F0F4FF;
   --card-bg:#FFFFFF;
   --sidebar-bg:#F8F6FF;
@@ -24,17 +24,22 @@ body{font-family:'Inter',sans-serif;background:var(--soft-bg);color:var(--text-p
 /* NAVBAR */
 .navbar{background:linear-gradient(135deg,#4F6EF7 0%,#7C3AED 100%);padding:0 28px;height:68px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 20px rgba(79,110,247,0.3);flex-shrink:0;position:relative;overflow:hidden;}
 .navbar::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:rgba(255,255,255,0.06);border-radius:50%;}
-.navbar::after{content:'';position:absolute;bottom:-60px;left:200px;width:140px;height:140px;background:rgba(255,255,255,0.04);border-radius:50%;}
 .logo-wrap{width:44px;height:44px;background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;}
 .logo-svg{width:26px;height:26px;}
 .brand{position:relative;z-index:1;}
-.brand h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.3px;}
+.brand h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:#fff;}
 .brand p{font-size:12px;color:rgba(255,255,255,0.72);margin-top:1px;}
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
 .status-pill{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;display:flex;align-items:center;gap:6px;}
 .status-dot{width:7px;height:7px;background:#4ADE80;border-radius:50%;box-shadow:0 0 6px #4ADE80;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
 .helpline{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;}
+
+/* TABS */
+.tabs{display:flex;background:var(--card-bg);border-bottom:1.5px solid var(--border);flex-shrink:0;}
+.tab{padding:12px 24px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600;}
+.tab:hover{color:var(--text-primary);}
 
 /* MAIN */
 .main{display:flex;flex:1;overflow:hidden;}
@@ -47,16 +52,22 @@ body{font-family:'Inter',sans-serif;background:var(--soft-bg);color:var(--text-p
 .crime-list{padding:10px 10px 6px;overflow-y:auto;flex:1;}
 .crime-list::-webkit-scrollbar{width:4px;}
 .crime-list::-webkit-scrollbar-thumb{background:#D1D5F0;border-radius:10px;}
-
 .crime-btn{width:100%;background:var(--card-bg);border:1.5px solid var(--border);border-radius:12px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all 0.18s ease;text-align:left;}
-.crime-btn:hover{border-color:#4F6EF7;background:linear-gradient(135deg,rgba(79,110,247,0.06),rgba(124,58,237,0.06));transform:translateX(3px);box-shadow:0 2px 12px rgba(79,110,247,0.12);}
+.crime-btn:hover{border-color:#4F6EF7;background:linear-gradient(135deg,rgba(79,110,247,0.06),rgba(124,58,237,0.06));transform:translateX(3px);}
+.crime-btn.active{border-color:#4F6EF7;background:linear-gradient(135deg,rgba(79,110,247,0.1),rgba(124,58,237,0.1));}
 .crime-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
 .crime-text .ct{font-size:12.5px;font-weight:600;color:var(--text-primary);}
 .crime-text .cs{font-size:11px;color:var(--text-muted);margin-top:1px;}
-
 .sidebar-footer{padding:12px 14px;background:linear-gradient(135deg,rgba(79,110,247,0.07),rgba(124,58,237,0.07));border-top:1px solid var(--border);flex-shrink:0;}
 .sidebar-footer p{font-size:11px;color:var(--text-secondary);line-height:1.6;}
 .sidebar-footer strong{color:#4F6EF7;}
+
+/* PAGE VIEWS */
+.page{display:none;flex:1;overflow:hidden;}
+.page.active{display:flex;}
+
+/* CHAT PAGE */
+.chat-page{flex-direction:row;}
 
 /* CHAT AREA */
 .chat-area{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--soft-bg);}
@@ -78,7 +89,6 @@ body{font-family:'Inter',sans-serif;background:var(--soft-bg);color:var(--text-p
 .msg-meta{font-size:11px;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:4px;}
 .bot .msg-meta{padding-left:2px;}
 .user .msg-meta{justify-content:flex-end;padding-right:2px;}
-
 .law-badge{display:inline-block;background:linear-gradient(135deg,rgba(79,110,247,0.1),rgba(124,58,237,0.1));border:1px solid rgba(79,110,247,0.25);color:#4F6EF7;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;margin:5px 3px 2px 0;}
 .steps{margin-top:8px;padding-left:0;list-style:none;}
 .steps li{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text-primary);padding:3px 0;}
@@ -94,20 +104,89 @@ body{font-family:'Inter',sans-serif;background:var(--soft-bg);color:var(--text-p
 @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:0.35;}40%{transform:translateY(-6px);opacity:1;}}
 
 /* INPUT BAR */
-.input-bar{padding:14px 22px 14px;background:var(--card-bg);border-top:1.5px solid var(--border);display:flex;gap:10px;align-items:center;box-shadow:0 -2px 16px rgba(79,110,247,0.07);}
-.input-wrap{flex:1;}
+.input-bar{padding:14px 22px;background:var(--card-bg);border-top:1.5px solid var(--border);display:flex;gap:10px;align-items:center;box-shadow:0 -2px 16px rgba(79,110,247,0.07);}
+.input-wrap{flex:1;position:relative;}
 .input-wrap input{width:100%;background:var(--soft-bg);border:1.5px solid var(--border);color:var(--text-primary);padding:12px 18px;border-radius:12px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
 .input-wrap input:focus{border-color:#4F6EF7;box-shadow:0 0 0 3px rgba(79,110,247,0.1);}
 .input-wrap input::placeholder{color:var(--text-muted);}
-.send-btn{width:46px;height:46px;flex-shrink:0;background:linear-gradient(135deg,#4F6EF7,#7C3AED);border:none;border-radius:12px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(79,110,247,0.35);transition:transform 0.15s,box-shadow 0.15s;}
-.send-btn:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(79,110,247,0.45);}
-.send-btn:active{transform:scale(0.97);}
-.input-hint{font-size:11px;color:var(--text-muted);text-align:center;margin-top:6px;padding-bottom:6px;}
+.upload-btn{width:44px;height:44px;flex-shrink:0;background:var(--soft-bg);border:1.5px solid var(--border);border-radius:12px;color:var(--blue);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;position:relative;}
+.upload-btn:hover{background:rgba(79,110,247,0.1);border-color:var(--blue);}
+.upload-btn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.send-btn{width:46px;height:46px;flex-shrink:0;background:linear-gradient(135deg,#4F6EF7,#7C3AED);border:none;border-radius:12px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(79,110,247,0.35);transition:transform 0.15s;}
+.send-btn:hover{transform:scale(1.05);}
+.input-hint{font-size:11px;color:var(--text-muted);text-align:center;margin-top:6px;padding-bottom:4px;}
+
+/* UPLOAD PREVIEW */
+.upload-preview{display:none;padding:8px 22px;background:rgba(79,110,247,0.05);border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+.upload-preview.visible{display:flex;}
+.file-chip{background:var(--card-bg);border:1.5px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:6px;}
+.file-chip button{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;line-height:1;}
+
+/* EVIDENCE PANEL */
+.evidence-panel{width:280px;flex-shrink:0;background:var(--card-bg);border-left:1.5px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.evidence-panel.hidden{display:none;}
+.ep-header{padding:16px 16px 12px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(79,110,247,0.07),rgba(124,58,237,0.07));}
+.ep-header h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:var(--text-primary);}
+.ep-header p{font-size:11px;color:var(--text-secondary);margin-top:2px;}
+.ep-body{flex:1;overflow-y:auto;padding:14px;}
+.ep-body::-webkit-scrollbar{width:4px;}
+.ep-body::-webkit-scrollbar-thumb{background:#D1D5F0;border-radius:10px;}
+.ep-crime-badge{background:linear-gradient(135deg,#4F6EF7,#7C3AED);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;}
+.ep-section{margin-bottom:14px;}
+.ep-section-title{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+.checklist-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(228,232,255,0.5);}
+.checklist-item:last-child{border-bottom:none;}
+.checklist-item input[type=checkbox]{width:16px;height:16px;accent-color:#4F6EF7;margin-top:2px;cursor:pointer;flex-shrink:0;}
+.checklist-item label{font-size:12.5px;color:var(--text-secondary);cursor:pointer;line-height:1.5;}
+.checklist-item input:checked+label{text-decoration:line-through;color:var(--text-muted);}
+.ep-progress{margin-bottom:14px;}
+.progress-bar{height:6px;background:#E4E8FF;border-radius:10px;overflow:hidden;margin-top:6px;}
+.progress-fill{height:100%;background:linear-gradient(135deg,#4F6EF7,#7C3AED);border-radius:10px;transition:width 0.3s;}
+.progress-text{font-size:11px;color:var(--text-secondary);margin-top:4px;}
+.fir-btn{width:100%;background:linear-gradient(135deg,#4F6EF7,#7C3AED);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;padding:11px;cursor:pointer;margin-top:8px;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.fir-btn:hover{opacity:0.9;}
+.fir-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.law-section{background:rgba(79,110,247,0.06);border:1px solid rgba(79,110,247,0.2);border-radius:8px;padding:8px 10px;margin-bottom:8px;}
+.law-section p{font-size:11.5px;color:#4F6EF7;font-weight:600;}
+.law-section span{font-size:11px;color:var(--text-secondary);}
 
 /* WELCOME CARD */
 .welcome-card{background:linear-gradient(135deg,rgba(79,110,247,0.07),rgba(124,58,237,0.07));border:1.5px solid rgba(79,110,247,0.18);border-radius:16px;padding:16px 18px;margin-bottom:2px;}
 .welcome-card h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:5px;}
 .welcome-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;}
+
+/* DASHBOARD PAGE */
+.dashboard-page{flex-direction:column;overflow-y:auto;padding:28px 32px;background:var(--soft-bg);background-image:radial-gradient(circle,rgba(79,110,247,0.04) 1px,transparent 1px);background-size:28px 28px;}
+.dash-header{margin-bottom:24px;}
+.dash-header h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:700;color:var(--text-primary);}
+.dash-header p{font-size:14px;color:var(--text-secondary);margin-top:4px;}
+.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+.dash-card{background:var(--card-bg);border:1.5px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow);}
+.dash-card h3{font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+.dash-card .value{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:700;color:var(--text-primary);}
+.dash-card .label{font-size:12px;color:var(--text-secondary);margin-top:4px;}
+.dash-card.highlight{background:linear-gradient(135deg,#4F6EF7,#7C3AED);border:none;}
+.dash-card.highlight h3{color:rgba(255,255,255,0.7);}
+.dash-card.highlight .value{color:#fff;}
+.dash-card.highlight .label{color:rgba(255,255,255,0.8);}
+.dash-section{background:var(--card-bg);border:1.5px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.dash-section h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.case-empty{text-align:center;padding:40px 20px;color:var(--text-muted);}
+.case-empty p{font-size:14px;margin-top:8px;}
+.case-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.case-row:last-child{border-bottom:none;}
+.case-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:linear-gradient(135deg,rgba(79,110,247,0.1),rgba(124,58,237,0.1));}
+.case-info{flex:1;}
+.case-info .ci-title{font-size:13.5px;font-weight:600;color:var(--text-primary);}
+.case-info .ci-sub{font-size:12px;color:var(--text-muted);margin-top:2px;}
+.case-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.case-badge.open{background:#FEF3C7;color:#92400E;}
+.case-badge.done{background:#D1FAE5;color:#065F46;}
+.uploaded-files-list{display:flex;flex-direction:column;gap:8px;}
+.uploaded-file-item{display:flex;align-items:center;gap:10px;padding:10px;background:var(--soft-bg);border-radius:10px;border:1px solid var(--border);}
+.uploaded-file-item .fi-icon{font-size:20px;}
+.uploaded-file-item .fi-name{font-size:13px;color:var(--text-primary);font-weight:500;}
+.uploaded-file-item .fi-size{font-size:11px;color:var(--text-muted);}
 </style>
 </head>
 <body>
@@ -115,7 +194,7 @@ body{font-family:'Inter',sans-serif;background:var(--soft-bg);color:var(--text-p
 <!-- NAVBAR -->
 <div class="navbar">
   <div class="logo-wrap">
-    <svg class="logo-svg" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="logo-svg" viewBox="0 0 26 26" fill="none">
       <path d="M13 2L4 6.5V13C4 17.97 7.93 22.61 13 24C18.07 22.61 22 17.97 22 13V6.5L13 2Z" fill="rgba(255,255,255,0.25)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
       <path d="M9 13L11.5 15.5L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
@@ -130,8 +209,13 @@ body{font-family:'Inter',sans-serif;background:var(--soft-bg);color:var(--text-p
   </div>
 </div>
 
-<div class="main">
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('chat')">💬 Chat Assistant</div>
+  <div class="tab" onclick="switchTab('dashboard')">📊 Dashboard</div>
+</div>
 
+<div class="main">
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-header">
@@ -139,283 +223,574 @@ body{font-family:'Inter',sans-serif;background:var(--soft-bg);color:var(--text-p
       <p>Select the crime type to begin</p>
     </div>
     <div class="crime-list">
-
-      <button class="crime-btn" onclick="quickReport('I was scammed online and lost money through UPI or a fake website')">
+      <button class="crime-btn" onclick="quickReport('I was scammed online and lost money through UPI or a fake website','Financial Fraud','💸','financial')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);">💸</div>
         <div class="crime-text"><div class="ct">Financial Fraud</div><div class="cs">UPI, banking, fake offers</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('My account was hacked and someone accessed it without my permission')">
+      <button class="crime-btn" onclick="quickReport('My account was hacked and someone accessed it without my permission','Account Hacking','🔓','hacking')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#FEE2E2,#FECACA);">🔓</div>
         <div class="crime-text"><div class="ct">Account Hacking</div><div class="cs">Email, social media, bank</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('Someone is harassing or threatening me online repeatedly')">
+      <button class="crime-btn" onclick="quickReport('Someone is harassing or threatening me online repeatedly','Cyber Harassment','😰','harassment')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#EDE9FE,#DDD6FE);">😰</div>
         <div class="crime-text"><div class="ct">Cyber Harassment</div><div class="cs">Threats, stalking, abuse</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('My identity was stolen and someone is misusing my personal information online')">
+      <button class="crime-btn" onclick="quickReport('My identity was stolen and someone is misusing my personal information online','Identity Theft','🪪','identity')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#DBEAFE,#BFDBFE);">🪪</div>
         <div class="crime-text"><div class="ct">Identity Theft</div><div class="cs">Fake profiles, data misuse</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('I received a phishing email or a fake call asking for my OTP or bank details')">
+      <button class="crime-btn" onclick="quickReport('I received a phishing email or a fake call asking for my OTP or bank details','Phishing / Fraud Call','📧','phishing')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#D1FAE5,#A7F3D0);">📧</div>
         <div class="crime-text"><div class="ct">Phishing / Fraud Call</div><div class="cs">OTP theft, fake links</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('Someone is blackmailing me using my photos or videos and demanding money')">
+      <button class="crime-btn" onclick="quickReport('Someone is blackmailing me using my photos or videos and demanding money','Sextortion / Blackmail','🚨','sextortion')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#FCE7F3,#FBCFE8);">🚨</div>
         <div class="crime-text"><div class="ct">Sextortion / Blackmail</div><div class="cs">Photo threats, extortion</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('Someone installed ransomware on my device or stole my personal data')">
+      <button class="crime-btn" onclick="quickReport('Someone installed ransomware on my device or stole my personal data','Ransomware / Data Theft','💻','ransomware')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#FEF9C3,#FEF08A);">💻</div>
         <div class="crime-text"><div class="ct">Ransomware / Data Theft</div><div class="cs">Locked files, stolen data</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('I was cheated by a fake online seller and did not receive my product or lost money')">
+      <button class="crime-btn" onclick="quickReport('I was cheated by a fake online seller and did not receive my product','Online Shopping Fraud','🛍️','shopping')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#DCFCE7,#BBF7D0);">🛍️</div>
         <div class="crime-text"><div class="ct">Online Shopping Fraud</div><div class="cs">Fake seller, no delivery</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('I was cheated by a fake loan app or fake investment or crypto scheme')">
+      <button class="crime-btn" onclick="quickReport('I was cheated by a fake loan app or fake investment or crypto scheme','Fake Loan / Investment','📊','loan')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#FEE2E2,#FCA5A5);">📊</div>
         <div class="crime-text"><div class="ct">Fake Loan / Investment</div><div class="cs">Illegal apps, crypto scam</div></div>
       </button>
-
-      <button class="crime-btn" onclick="quickReport('I am being bullied trolled or defamed online by someone targeting me personally')">
+      <button class="crime-btn" onclick="quickReport('I am being bullied trolled or defamed online by someone targeting me personally','Cyberbullying','🧠','bullying')">
         <div class="crime-icon" style="background:linear-gradient(135deg,#E0E7FF,#C7D2FE);">🧠</div>
         <div class="crime-text"><div class="ct">Cyberbullying</div><div class="cs">Trolling, defamation online</div></div>
       </button>
-
     </div>
     <div class="sidebar-footer">
       <p>🛡️ All conversations are <strong>confidential</strong>.<br/>Report at <strong>cybercrime.gov.in</strong> or call <strong>1930</strong>.</p>
     </div>
   </div>
 
-  <!-- CHAT -->
-  <div class="chat-area">
-    <div class="chat-messages" id="chatMessages">
-
-      <div class="welcome-card">
-        <h2>👋 Welcome to CyberAegis</h2>
-        <p>If you've been scammed, hacked, harassed, or cheated online — you're in the right place. Tell me what happened in your own words and I'll guide you step by step on what to do next, what evidence to collect, and how to report it.</p>
-      </div>
-
-      <div class="message bot">
-        <div class="avatar bot-av">🛡️</div>
-        <div>
-          <div class="bubble">
-            Hello! I'm <strong>CyberAegis</strong>, your AI cybercrime first responder.<br><br>
-            Please describe what happened to you. The more detail you share, the better I can guide you. Your information is safe here. 🙏
+  <!-- CHAT PAGE -->
+  <div class="page chat-page active" id="chatPage">
+    <div class="chat-area">
+      <div class="chat-messages" id="chatMessages">
+        <div class="welcome-card">
+          <h2>👋 Welcome to CyberAegis</h2>
+          <p>If you've been scammed, hacked, harassed, or cheated online — you're in the right place. Tell me what happened and I'll guide you step by step.</p>
+        </div>
+        <div class="message bot">
+          <div class="avatar bot-av">🛡️</div>
+          <div>
+            <div class="bubble">Hello! I'm <strong>CyberAegis</strong>, your AI cybercrime first responder.<br><br>Please describe what happened to you. Your information is safe here. 🙏</div>
+            <div class="msg-meta">🛡️ CyberAegis • Just now</div>
           </div>
-          <div class="msg-meta">🛡️ CyberAegis • Just now</div>
+        </div>
+        <div class="message typing" id="typingIndicator">
+          <div class="avatar bot-av">🛡️</div>
+          <div class="typing-bubble"><span></span><span></span><span></span></div>
         </div>
       </div>
 
-      <div class="message typing" id="typingIndicator">
-        <div class="avatar bot-av">🛡️</div>
-        <div class="typing-bubble"><span></span><span></span><span></span></div>
-      </div>
+      <!-- UPLOAD PREVIEW -->
+      <div class="upload-preview" id="uploadPreview"></div>
 
+      <!-- INPUT BAR -->
+      <div class="input-bar">
+        <div class="upload-btn" title="Attach evidence file">
+          📎
+          <input type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="handleFileUpload(this)"/>
+        </div>
+        <div class="input-wrap">
+          <input type="text" id="userInput"
+            placeholder="Describe what happened... (e.g. I lost ₹15,000 to a fake job offer)"
+            onkeydown="if(event.key==='Enter')sendMessage()"/>
+        </div>
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+      <div class="input-hint">Press Enter or click ➤ to send &nbsp;•&nbsp; 📎 Attach screenshots as evidence</div>
     </div>
 
-    <div class="input-bar">
-      <div class="input-wrap">
-        <input type="text" id="userInput"
-          placeholder="Describe what happened... (e.g. I lost ₹15,000 to a fake job offer)"
-          onkeydown="if(event.key==='Enter')sendMessage()"/>
+    <!-- EVIDENCE PANEL -->
+    <div class="evidence-panel hidden" id="evidencePanel">
+      <div class="ep-header">
+        <h3>📋 Evidence Checklist</h3>
+        <p>Tick each item as you collect it</p>
       </div>
-      <button class="send-btn" onclick="sendMessage()">➤</button>
+      <div class="ep-body" id="evidenceBody">
+      </div>
     </div>
-    <div class="input-hint">Press Enter or click ➤ to send &nbsp;•&nbsp; Powered by CyberAegis AI</div>
+  </div>
+
+  <!-- DASHBOARD PAGE -->
+  <div class="page dashboard-page" id="dashPage">
+    <div class="dash-header">
+      <h2>📊 Case Dashboard</h2>
+      <p>Summary of your cybercrime case and evidence collected</p>
+    </div>
+
+    <div class="dash-grid">
+      <div class="dash-card highlight">
+        <h3>Crime Type</h3>
+        <div class="value" id="dashCrimeType" style="font-size:18px;">—</div>
+        <div class="label">Identified by AI</div>
+      </div>
+      <div class="dash-card">
+        <h3>Evidence Items</h3>
+        <div class="value"><span id="dashChecked">0</span>/<span id="dashTotal">0</span></div>
+        <div class="label">Collected so far</div>
+      </div>
+      <div class="dash-card">
+        <h3>Files Uploaded</h3>
+        <div class="value" id="dashFiles">0</div>
+        <div class="label">Screenshots & documents</div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <h3>⚖️ Applicable Laws</h3>
+      <div id="dashLaws">
+        <div class="case-empty"><p>Start a chat to identify applicable laws.</p></div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <h3>📎 Uploaded Evidence Files</h3>
+      <div id="dashUploads">
+        <div class="case-empty"><p>No files uploaded yet. Use the 📎 button in chat to attach screenshots.</p></div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <h3>📋 Evidence Checklist Progress</h3>
+      <div id="dashChecklist">
+        <div class="case-empty"><p>Select a crime type in chat to see your evidence checklist.</p></div>
+      </div>
+    </div>
+
+    <button class="fir-btn" id="dashFirBtn" onclick="generateFIR()" disabled>
+      📄 Generate FIR Report PDF
+    </button>
   </div>
 
 </div>
 
 <script>
-function getTime(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const state = {
+  crimeType: null,
+  crimeIcon: null,
+  laws: [],
+  uploadedFiles: [],
+  checklist: [],
+  messages: []
+};
 
-function addMessage(html,sender){
-  const container=document.getElementById('chatMessages');
-  const typing=document.getElementById('typingIndicator');
-  const msg=document.createElement('div');
-  msg.className=`message ${sender}`;
-  const botAv=`<div class="avatar bot-av">🛡️</div>`;
-  const userAv=`<div class="avatar user-av">🙋</div>`;
-  const who=sender==='bot'?'🛡️ CyberAegis':'You';
-  msg.innerHTML=`
+// ── EVIDENCE CHECKLISTS ────────────────────────────────────────────────────────
+const checklists = {
+  financial: {
+    laws: [
+      {code:'Section 420 IPC', desc:'Cheating and dishonestly inducing delivery of property'},
+      {code:'Section 66D IT Act', desc:'Cheating by personation using computer resource'}
+    ],
+    items: [
+      'Screenshot of the fraudulent message or call',
+      'Bank transaction ID or UTR number',
+      'Screenshot of payment confirmation',
+      'Fraudster\'s phone number or profile link',
+      'Any emails received from the fraudster',
+      'Record of exact amount lost with date and time'
+    ]
+  },
+  hacking: {
+    laws: [
+      {code:'Section 66 IT Act 2000', desc:'Computer related offences — unauthorized access'},
+      {code:'Section 43 IT Act', desc:'Penalty for damage to computer or data'}
+    ],
+    items: [
+      'Screenshot of unauthorized login activity',
+      'Email notification of suspicious sign-in',
+      'Screenshot of account changes you didn\'t make',
+      'List of platforms where same password was used',
+      'Date and time you first noticed the hack'
+    ]
+  },
+  harassment: {
+    laws: [
+      {code:'Section 67 IT Act', desc:'Publishing obscene material in electronic form'},
+      {code:'Section 354D IPC', desc:'Stalking — repeated attempts to contact'}
+    ],
+    items: [
+      'Screenshot of every threatening or abusive message',
+      'Harasser\'s profile link and username',
+      'Record of dates and times of harassment',
+      'Screenshot of harasser\'s profile before blocking',
+      'Any witnesses who saw the messages'
+    ]
+  },
+  identity: {
+    laws: [
+      {code:'Section 66C IT Act', desc:'Identity theft — fraudulent use of electronic signature'},
+      {code:'Section 66D IT Act', desc:'Cheating by personation using computer resource'}
+    ],
+    items: [
+      'Screenshot of the fake profile or impersonation',
+      'Profile URL of the fake account',
+      'Screenshots of posts made by the fake account',
+      'Messages received pretending to be you',
+      'Evidence of harm caused by the impersonation'
+    ]
+  },
+  phishing: {
+    laws: [
+      {code:'Section 66C IT Act', desc:'Identity theft — fraudulent electronic signatures'},
+      {code:'Section 66D IT Act', desc:'Cheating by personation using computer resource'}
+    ],
+    items: [
+      'Screenshot or forward of the phishing email/message',
+      'Caller\'s phone number (check truecaller)',
+      'Screenshot of any fake website or link',
+      'Record of any OTP or details you shared',
+      'Your bank statement showing unauthorized transaction'
+    ]
+  },
+  sextortion: {
+    laws: [
+      {code:'Section 67A IT Act', desc:'Punishment for publishing sexually explicit content'},
+      {code:'Section 383 IPC', desc:'Extortion — putting person in fear to deliver property'}
+    ],
+    items: [
+      'Screenshot of all blackmail messages',
+      'Blackmailer\'s profile link and username',
+      'Record of any payment demands with amounts',
+      'Do NOT pay — screenshot the demand instead',
+      'Platform where the incident occurred'
+    ]
+  },
+  ransomware: {
+    laws: [
+      {code:'Section 66 IT Act', desc:'Computer related offences'},
+      {code:'Section 43 IT Act', desc:'Penalty for damage to computer, data or network'}
+    ],
+    items: [
+      'Photo of ransom message shown on screen',
+      'List of files that are locked or encrypted',
+      'Name of any suspicious software recently installed',
+      'Do NOT pay the ransom',
+      'Disconnect device from internet (already done?)'
+    ]
+  },
+  shopping: {
+    laws: [
+      {code:'Section 420 IPC', desc:'Cheating and dishonestly inducing delivery of property'},
+      {code:'Section 66D IT Act', desc:'Cheating by personation using computer resource'}
+    ],
+    items: [
+      'Screenshot of the seller\'s profile or listing',
+      'Order confirmation or chat with seller',
+      'Payment receipt or transaction ID',
+      'Screenshot of the fake website if applicable',
+      'Tracking information or delivery status'
+    ]
+  },
+  loan: {
+    laws: [
+      {code:'Section 420 IPC', desc:'Cheating and dishonestly inducing delivery of property'},
+      {code:'RBI Guidelines', desc:'Unauthorized digital lending apps regulation'}
+    ],
+    items: [
+      'Screenshot of the app or website',
+      'All communication with the fake lender',
+      'Payment receipts for any amount paid',
+      'App name and download source',
+      'Contact number used by the fraudsters'
+    ]
+  },
+  bullying: {
+    laws: [
+      {code:'Section 66A IT Act', desc:'Punishment for sending offensive messages electronically'},
+      {code:'Section 499 IPC', desc:'Defamation — making or publishing imputation'}
+    ],
+    items: [
+      'Screenshot of every bullying post or comment',
+      'Bully\'s username and profile link',
+      'Platform where bullying is occurring',
+      'Names of any witnesses or other victims',
+      'Record of dates bullying started and frequency'
+    ]
+  }
+};
+
+// ── TAB SWITCHING ──────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (tab==='chat'&&i===0)||(tab==='dashboard'&&i===1)));
+  document.getElementById('chatPage').classList.toggle('active', tab==='chat');
+  document.getElementById('dashPage').classList.toggle('active', tab==='dashboard');
+  if(tab==='dashboard') updateDashboard();
+}
+
+// ── EVIDENCE PANEL ─────────────────────────────────────────────────────────────
+function showEvidencePanel(crimeKey, crimeLabel) {
+  const panel = document.getElementById('evidencePanel');
+  const body = document.getElementById('evidenceBody');
+  const data = checklists[crimeKey];
+  if(!data) return;
+
+  state.crimeType = crimeLabel;
+  state.laws = data.laws;
+  state.checklist = data.items.map(item => ({text:item, checked:false}));
+
+  panel.classList.remove('hidden');
+
+  body.innerHTML = `
+    <span class="ep-crime-badge">🔍 ${crimeLabel}</span>
+    <div class="ep-progress">
+      <div class="ep-section-title">Progress</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-text" id="progressText">0 of ${data.items.length} items collected</div>
+    </div>
+    <div class="ep-section">
+      <div class="ep-section-title">⚖️ Applicable Laws</div>
+      ${data.laws.map(l=>`<div class="law-section"><p>${l.code}</p><span>${l.desc}</span></div>`).join('')}
+    </div>
+    <div class="ep-section">
+      <div class="ep-section-title">📋 Evidence to Collect</div>
+      ${data.items.map((item,i)=>`
+        <div class="checklist-item">
+          <input type="checkbox" id="chk${i}" onchange="updateProgress(${i})"/>
+          <label for="chk${i}">${item}</label>
+        </div>
+      `).join('')}
+    </div>
+    <button class="fir-btn" id="firBtn" onclick="generateFIR()">📄 Generate FIR Report</button>
+  `;
+}
+
+function updateProgress(index) {
+  state.checklist[index].checked = document.getElementById('chk'+index).checked;
+  const checked = state.checklist.filter(i=>i.checked).length;
+  const total = state.checklist.length;
+  const pct = Math.round((checked/total)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressText').textContent = `${checked} of ${total} items collected`;
+}
+
+// ── FILE UPLOAD ────────────────────────────────────────────────────────────────
+function handleFileUpload(input) {
+  const files = Array.from(input.files);
+  files.forEach(file => {
+    if(!state.uploadedFiles.find(f=>f.name===file.name)) {
+      state.uploadedFiles.push(file);
+    }
+  });
+  renderUploadPreview();
+}
+
+function renderUploadPreview() {
+  const preview = document.getElementById('uploadPreview');
+  if(state.uploadedFiles.length === 0) {
+    preview.classList.remove('visible');
+    preview.innerHTML = '';
+    return;
+  }
+  preview.classList.add('visible');
+  preview.innerHTML = state.uploadedFiles.map((f,i) => `
+    <div class="file-chip">
+      📎 ${f.name.length>20?f.name.substring(0,20)+'...':f.name}
+      <button onclick="removeFile(${i})">×</button>
+    </div>
+  `).join('');
+  updateDashFileCount();
+}
+
+function removeFile(index) {
+  state.uploadedFiles.splice(index, 1);
+  renderUploadPreview();
+}
+
+function updateDashFileCount() {
+  document.getElementById('dashFiles').textContent = state.uploadedFiles.length;
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function updateDashboard() {
+  document.getElementById('dashCrimeType').textContent = state.crimeType || '—';
+  const checked = state.checklist.filter(i=>i.checked).length;
+  const total = state.checklist.length;
+  document.getElementById('dashChecked').textContent = checked;
+  document.getElementById('dashTotal').textContent = total;
+  document.getElementById('dashFiles').textContent = state.uploadedFiles.length;
+
+  const firBtn = document.getElementById('dashFirBtn');
+  firBtn.disabled = !state.crimeType;
+
+  // Laws
+  const lawsEl = document.getElementById('dashLaws');
+  if(state.laws.length > 0) {
+    lawsEl.innerHTML = state.laws.map(l=>`
+      <div class="law-section" style="margin-bottom:8px;">
+        <p>${l.code}</p><span>${l.desc}</span>
+      </div>`).join('');
+  } else {
+    lawsEl.innerHTML = '<div class="case-empty"><p>Start a chat to identify applicable laws.</p></div>';
+  }
+
+  // Uploaded files
+  const uploadsEl = document.getElementById('dashUploads');
+  if(state.uploadedFiles.length > 0) {
+    uploadsEl.innerHTML = `<div class="uploaded-files-list">${state.uploadedFiles.map(f=>`
+      <div class="uploaded-file-item">
+        <span class="fi-icon">${f.type.includes('image')?'🖼️':'📄'}</span>
+        <div>
+          <div class="fi-name">${f.name}</div>
+          <div class="fi-size">${(f.size/1024).toFixed(1)} KB</div>
+        </div>
+      </div>`).join('')}</div>`;
+  } else {
+    uploadsEl.innerHTML = '<div class="case-empty"><p>No files uploaded yet.</p></div>';
+  }
+
+  // Checklist
+  const checklistEl = document.getElementById('dashChecklist');
+  if(state.checklist.length > 0) {
+    const pct = total>0?Math.round((checked/total)*100):0;
+    checklistEl.innerHTML = `
+      <div class="ep-progress">
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="progress-text">${checked} of ${total} items collected (${pct}%)</div>
+      </div>
+      ${state.checklist.map(item=>`
+        <div class="checklist-item" style="padding:8px 0;">
+          <input type="checkbox" ${item.checked?'checked':''} disabled/>
+          <label style="${item.checked?'text-decoration:line-through;color:var(--text-muted)':''}">${item.text}</label>
+        </div>`).join('')}`;
+  } else {
+    checklistEl.innerHTML = '<div class="case-empty"><p>Select a crime type in chat to see checklist.</p></div>';
+  }
+}
+
+// ── FIR GENERATOR ─────────────────────────────────────────────────────────────
+async function generateFIR() {
+  if(!state.crimeType) { alert('Please describe your case in chat first!'); return; }
+  try {
+    const response = await fetch('http://127.0.0.1:8000/generate-fir', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        crimeType: state.crimeType,
+        laws: state.laws,
+        checklist: state.checklist,
+        uploadedFiles: state.uploadedFiles.map(f => f.name),
+        victimName: 'Complainant'
+      })
+    });
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `CyberAegis_FIR_${state.crimeType.replace(/\s+/g,'_')}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addMessage('✅ Your FIR PDF has been downloaded! It looks professional and is ready to submit at cybercrime.gov.in or your nearest police station. 🛡️', 'bot');
+  } catch(err) {
+    // Fallback to text if backend not running
+    generateFIRText();
+  }
+}
+
+function generateFIRText() {
+  const checked = state.checklist.filter(i=>i.checked);
+  const date = new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'long',year:'numeric'});
+  const time = new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
+  const content = `FIRST INFORMATION REPORT (FIR) DRAFT\nGenerated by CyberAegis\n${'='.repeat(40)}\n\nDate: ${date}\nTime: ${time}\nCrime Type: ${state.crimeType}\n\nLAWS:\n${state.laws.map(l=>`• ${l.code}: ${l.desc}`).join('\n')}\n\nEVIDENCE (${checked.length}/${state.checklist.length}):\n${state.checklist.map(i=>`${i.checked?'✓':'○'} ${i.text}`).join('\n')}\n\nNEXT STEPS:\n1. Visit cybercrime.gov.in\n2. Call 1930\n3. Visit nearest police station`.trim();
+  const blob = new Blob([content], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `CyberAegis_FIR_${state.crimeType.replace(/\s+/g,'_')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  addMessage('✅ FIR draft downloaded! Connect backend for proper PDF version. 🛡️', 'bot');
+}
+
+// ── CHAT FUNCTIONS ─────────────────────────────────────────────────────────────
+function getTime() {
+  return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+
+function addMessage(html, sender) {
+  const container = document.getElementById('chatMessages');
+  const typing = document.getElementById('typingIndicator');
+  const msg = document.createElement('div');
+  msg.className = `message ${sender}`;
+  const botAv = `<div class="avatar bot-av">🛡️</div>`;
+  const userAv = `<div class="avatar user-av">🙋</div>`;
+  const who = sender==='bot'?'🛡️ CyberAegis':'You';
+  msg.innerHTML = `
     ${sender==='bot'?botAv:''}
     <div><div class="bubble">${html}</div>
     <div class="msg-meta">${who} • ${getTime()}</div></div>
     ${sender==='user'?userAv:''}`;
-  container.insertBefore(msg,typing);
-  container.scrollTop=container.scrollHeight;
+  container.insertBefore(msg, typing);
+  container.scrollTop = container.scrollHeight;
 }
 
-function showTyping(show){
-  document.getElementById('typingIndicator').classList.toggle('visible',show);
-  document.getElementById('chatMessages').scrollTop=99999;
+function showTyping(show) {
+  document.getElementById('typingIndicator').classList.toggle('visible', show);
+  document.getElementById('chatMessages').scrollTop = 99999;
 }
 
-function getReply(msg){
-  const m=msg.toLowerCase();
-
-  if(m.includes('scam')||m.includes('fraud')||m.includes('money')||m.includes('upi')||m.includes('lost')||m.includes('fake job')||m.includes('invest'))
-    return `I'm sorry this happened to you. Based on what you've described, this looks like <strong>financial cybercrime</strong>.<br><br>
-    <span class="law-badge">Section 420 IPC</span><span class="law-badge">Section 66D IT Act</span><br><br>
-    <strong>Do NOT delete any messages, screenshots, or transaction records.</strong><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Note the exact amount lost and transaction ID or UTR number</li>
-      <li><span class="step-num">2</span>Screenshot all conversations with the fraudster</li>
-      <li><span class="step-num">3</span>Call your bank immediately to freeze or reverse the transaction</li>
-      <li><span class="step-num">4</span>File a complaint at cybercrime.gov.in or call 1930</li>
-    </ul><br>
-    Can you tell me — did this happen via UPI, phone call, or a fake website?`;
-
-  if(m.includes('hack')||m.includes('account')||m.includes('password')||m.includes('access'))
-    return `This sounds like <strong>unauthorized account access</strong> — a serious cybercrime in India.<br><br>
-    <span class="law-badge">Section 66 IT Act 2000</span><span class="law-badge">Section 43 IT Act</span><br><br>
-    <strong>Act immediately:</strong><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Change your password right now from a different device</li>
-      <li><span class="step-num">2</span>Enable two-factor authentication on all accounts</li>
-      <li><span class="step-num">3</span>Screenshot any unknown login locations or devices</li>
-      <li><span class="step-num">4</span>Inform the platform through their official help center</li>
-    </ul><br>
-    Which account was hacked — email, social media, or bank account?`;
-
-  if(m.includes('harass')||m.includes('threat')||m.includes('stalk')||m.includes('abuse'))
-    return `Cyber harassment and threats are <strong>punishable offences</strong> under Indian law.<br><br>
-    <span class="law-badge">Section 67 IT Act</span><span class="law-badge">Section 354D IPC</span><br><br>
-    <strong>Do NOT respond to the harasser. Here's what to do:</strong><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Screenshot every threatening message with date and time visible</li>
-      <li><span class="step-num">2</span>Note the harasser's username, phone number, or profile link</li>
-      <li><span class="step-num">3</span>Block them — but take screenshots BEFORE blocking</li>
-      <li><span class="step-num">4</span>Report to cybercrime.gov.in with your evidence</li>
-    </ul><br>
-    Are the messages coming from someone you know, or a stranger online?`;
-
-  if(m.includes('phish')||m.includes('otp')||m.includes('fake call')||m.includes('fake link')||m.includes('bank detail'))
-    return `This is a <strong>phishing or vishing (voice phishing) attack</strong> — very common in India.<br><br>
-    <span class="law-badge">Section 66C IT Act</span><span class="law-badge">Section 66D IT Act</span><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Do NOT share any more OTPs, passwords, or details</li>
-      <li><span class="step-num">2</span>If you shared bank details — call your bank immediately</li>
-      <li><span class="step-num">3</span>Save the caller's number or screenshot the fake email or link</li>
-      <li><span class="step-num">4</span>Report at Sanchar Saathi portal: sancharsaathi.gov.in</li>
-    </ul><br>
-    Did you end up sharing any OTP or password during this call or through a link?`;
-
-  if(m.includes('blackmail')||m.includes('photo')||m.includes('video')||m.includes('sextort')||m.includes('nude'))
-    return `I understand this is extremely distressing. <strong>Please know — you are not alone, and this is a crime, not your fault.</strong><br><br>
-    <span class="law-badge">Section 67A IT Act</span><span class="law-badge">Section 383 IPC</span><br><br>
-    <strong>⚠️ Do NOT pay them — it only makes things worse.</strong><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Screenshot all their threatening messages and their profile</li>
-      <li><span class="step-num">2</span>Do NOT delete the conversation — it is your evidence</li>
-      <li><span class="step-num">3</span>Report their profile on the platform for removal</li>
-      <li><span class="step-num">4</span>Call 1930 or report at cybercrime.gov.in immediately</li>
-    </ul><br>
-    The National Cyber Crime Helpline (1930) is trained for cases like this and will help you confidentially.`;
-
-  if(m.includes('identity')||m.includes('impersonat')||m.includes('fake profile')||m.includes('my name'))
-    return `Identity theft and fake profiles are a <strong>growing cybercrime</strong> in India.<br><br>
-    <span class="law-badge">Section 66C IT Act</span><span class="law-badge">Section 66D IT Act</span><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Screenshot the fake profile or impersonation immediately</li>
-      <li><span class="step-num">2</span>Note the profile URL, followers count, and any posts made</li>
-      <li><span class="step-num">3</span>Report the fake profile on the platform for removal</li>
-      <li><span class="step-num">4</span>File a complaint at cybercrime.gov.in with screenshots</li>
-    </ul><br>
-    Which platform is the fake profile on — Instagram, Facebook, or WhatsApp?`;
-
-  if(m.includes('ransomware')||m.includes('locked')||m.includes('data theft')||m.includes('stolen data'))
-    return `This sounds like a <strong>ransomware attack or data theft</strong> — a serious cybercrime.<br><br>
-    <span class="law-badge">Section 66 IT Act</span><span class="law-badge">Section 43 IT Act</span><br><br>
-    <strong>Do NOT pay any ransom — it does not guarantee recovery.</strong><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Disconnect your device from internet and WiFi immediately</li>
-      <li><span class="step-num">2</span>Do not delete or format anything — preserve the evidence</li>
-      <li><span class="step-num">3</span>Take photos of the ransom message on screen</li>
-      <li><span class="step-num">4</span>Report to CERT-In at cert-in.org.in and cybercrime.gov.in</li>
-    </ul><br>
-    Was this on your personal laptop, office computer, or mobile phone?`;
-
-  if(m.includes('shopping')||m.includes('seller')||m.includes('delivery')||m.includes('product')||m.includes('order'))
-    return `This is <strong>online shopping fraud</strong> — very common on fake websites and social media pages.<br><br>
-    <span class="law-badge">Section 420 IPC</span><span class="law-badge">Section 66D IT Act</span><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Screenshot the seller's profile, product listing, and all chats</li>
-      <li><span class="step-num">2</span>Save the payment receipt, order confirmation, and transaction ID</li>
-      <li><span class="step-num">3</span>Report the seller on the platform — Instagram, Facebook, etc.</li>
-      <li><span class="step-num">4</span>File complaint at cybercrime.gov.in with all evidence</li>
-    </ul><br>
-    Did this happen on Instagram, a fake website, or an e-commerce platform like Flipkart or Amazon?`;
-
-  if(m.includes('loan app')||m.includes('loan')||m.includes('crypto')||m.includes('trading')||m.includes('returns')||m.includes('invest'))
-    return `This is a <strong>fake loan app or investment scam</strong> — one of the fastest growing cybercrimes in India.<br><br>
-    <span class="law-badge">Section 420 IPC</span><span class="law-badge">RBI Guidelines</span><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Screenshot all conversations, payment receipts, and app details</li>
-      <li><span class="step-num">2</span>Note the app name, website URL, and any phone numbers used</li>
-      <li><span class="step-num">3</span>Report the app to RBI at rbi.org.in/Scripts/Complaints</li>
-      <li><span class="step-num">4</span>File complaint at cybercrime.gov.in and call 1930</li>
-    </ul><br>
-    How much money did you invest or lose, and was this through an app or a website?`;
-
-  if(m.includes('bully')||m.includes('troll')||m.includes('defam')||m.includes('rumour')||m.includes('spread')||m.includes('targeting'))
-    return `<strong>Cyberbullying and online defamation</strong> are punishable offences under Indian law.<br><br>
-    <span class="law-badge">Section 66A IT Act</span><span class="law-badge">Section 499 IPC</span><br><br>
-    <ul class="steps">
-      <li><span class="step-num">1</span>Screenshot every post, comment, or message targeting you</li>
-      <li><span class="step-num">2</span>Note the bully's username, profile link, and follower count</li>
-      <li><span class="step-num">3</span>Report the content on the platform for removal</li>
-      <li><span class="step-num">4</span>File a complaint at cybercrime.gov.in with all screenshots</li>
-    </ul><br>
-    Is the bullying happening on one platform or across multiple platforms?`;
-
-  return `Thank you for reaching out. I want to make sure I guide you correctly.<br><br>
-  Could you share a few more details?<br><br>
-  <ul class="steps">
-    <li><span class="step-num">•</span>Did this involve money, your personal accounts, or threatening messages?</li>
-    <li><span class="step-num">•</span>Where did it happen — WhatsApp, email, a website, or a phone call?</li>
-    <li><span class="step-num">•</span>When did this happen — recently or some time ago?</li>
-  </ul><br>
-  The more you share, the better I can identify the crime and guide your next steps. 🙏`;
+function getReply(msg) {
+  const m = msg.toLowerCase();
+  if(m.includes('scam')||m.includes('fraud')||m.includes('upi')||m.includes('lost')||m.includes('fake job'))
+    return `I'm sorry this happened to you. This looks like <strong>financial cybercrime</strong>.<br><br><span class="law-badge">Section 420 IPC</span><span class="law-badge">Section 66D IT Act</span><br><br><strong>Do NOT delete any messages or transaction records.</strong><br><br><ul class="steps"><li><span class="step-num">1</span>Note the exact amount lost and transaction ID</li><li><span class="step-num">2</span>Screenshot all conversations with the fraudster</li><li><span class="step-num">3</span>Call your bank immediately to freeze the transaction</li><li><span class="step-num">4</span>File complaint at cybercrime.gov.in or call 1930</li></ul><br>Can you tell me — did this happen via UPI, phone call, or a fake website?`;
+  if(m.includes('hack')||m.includes('account')||m.includes('password'))
+    return `This sounds like <strong>unauthorized account access</strong>.<br><br><span class="law-badge">Section 66 IT Act 2000</span><span class="law-badge">Section 43 IT Act</span><br><br><ul class="steps"><li><span class="step-num">1</span>Change your password from a different device immediately</li><li><span class="step-num">2</span>Enable two-factor authentication</li><li><span class="step-num">3</span>Screenshot any unknown login activity</li><li><span class="step-num">4</span>Report to the platform and cybercrime.gov.in</li></ul><br>Which account was hacked?`;
+  if(m.includes('harass')||m.includes('threat')||m.includes('stalk'))
+    return `Cyber harassment is a <strong>serious crime</strong> under Indian law.<br><br><span class="law-badge">Section 67 IT Act</span><span class="law-badge">Section 354D IPC</span><br><br><ul class="steps"><li><span class="step-num">1</span>Screenshot every threatening message with timestamp</li><li><span class="step-num">2</span>Note the harasser's profile link</li><li><span class="step-num">3</span>Block them AFTER taking screenshots</li><li><span class="step-num">4</span>Report to cybercrime.gov.in</li></ul><br>Is this someone you know or a stranger?`;
+  if(m.includes('phish')||m.includes('otp')||m.includes('fake call'))
+    return `This is a <strong>phishing attack</strong>.<br><br><span class="law-badge">Section 66C IT Act</span><span class="law-badge">Section 66D IT Act</span><br><br><ul class="steps"><li><span class="step-num">1</span>Do NOT share any more OTPs or details</li><li><span class="step-num">2</span>Call your bank immediately if you shared bank details</li><li><span class="step-num">3</span>Save the caller's number as evidence</li><li><span class="step-num">4</span>Report at sancharsaathi.gov.in</li></ul><br>Did you share any OTP or password?`;
+  if(m.includes('blackmail')||m.includes('photo')||m.includes('sextort'))
+    return `<strong>You are not alone — this is a crime, not your fault.</strong><br><br><span class="law-badge">Section 67A IT Act</span><span class="law-badge">Section 383 IPC</span><br><br>⚠️ <strong>Do NOT pay them.</strong><br><br><ul class="steps"><li><span class="step-num">1</span>Screenshot all their threatening messages</li><li><span class="step-num">2</span>Do NOT delete the conversation</li><li><span class="step-num">3</span>Report their profile on the platform</li><li><span class="step-num">4</span>Call 1930 immediately — they handle this confidentially</li></ul>`;
+  if(m.includes('identity')||m.includes('impersonat')||m.includes('fake profile'))
+    return `This is <strong>identity theft</strong> under Indian law.<br><br><span class="law-badge">Section 66C IT Act</span><span class="law-badge">Section 66D IT Act</span><br><br><ul class="steps"><li><span class="step-num">1</span>Screenshot the fake profile immediately</li><li><span class="step-num">2</span>Note the profile URL and follower count</li><li><span class="step-num">3</span>Report the fake profile for removal</li><li><span class="step-num">4</span>File complaint at cybercrime.gov.in</li></ul><br>Which platform?`;
+  if(m.includes('ransomware')||m.includes('locked')||m.includes('encrypted'))
+    return `This is a <strong>ransomware attack</strong>.<br><br><span class="law-badge">Section 66 IT Act</span><span class="law-badge">Section 43 IT Act</span><br><br><strong>Do NOT pay the ransom.</strong><br><br><ul class="steps"><li><span class="step-num">1</span>Disconnect from internet immediately</li><li><span class="step-num">2</span>Take photo of the ransom message</li><li><span class="step-num">3</span>Do not format or delete anything</li><li><span class="step-num">4</span>Report to CERT-In at cert-in.org.in</li></ul>`;
+  if(m.includes('shopping')||m.includes('seller')||m.includes('delivery')||m.includes('order'))
+    return `This is <strong>online shopping fraud</strong>.<br><br><span class="law-badge">Section 420 IPC</span><span class="law-badge">Section 66D IT Act</span><br><br><ul class="steps"><li><span class="step-num">1</span>Screenshot the seller's profile and all chats</li><li><span class="step-num">2</span>Save your payment receipt</li><li><span class="step-num">3</span>Report the seller on the platform</li><li><span class="step-num">4</span>File complaint at cybercrime.gov.in</li></ul>`;
+  if(m.includes('loan')||m.includes('crypto')||m.includes('trading')||m.includes('invest'))
+    return `This is a <strong>fake loan or investment scam</strong>.<br><br><span class="law-badge">Section 420 IPC</span><span class="law-badge">RBI Guidelines</span><br><br><ul class="steps"><li><span class="step-num">1</span>Screenshot all communications and receipts</li><li><span class="step-num">2</span>Note the app name and website URL</li><li><span class="step-num">3</span>Report to RBI at sachet.rbi.org.in</li><li><span class="step-num">4</span>File complaint at cybercrime.gov.in</li></ul>`;
+  if(m.includes('bully')||m.includes('troll')||m.includes('defam')||m.includes('targeting'))
+    return `<strong>Cyberbullying and defamation</strong> are punishable offences.<br><br><span class="law-badge">Section 66A IT Act</span><span class="law-badge">Section 499 IPC</span><br><br><ul class="steps"><li><span class="step-num">1</span>Screenshot every bullying post or comment</li><li><span class="step-num">2</span>Note the bully's username and profile</li><li><span class="step-num">3</span>Report the content on the platform</li><li><span class="step-num">4</span>File complaint at cybercrime.gov.in</li></ul>`;
+  return `Thank you for reaching out. Could you share more details?<br><br><ul class="steps"><li><span class="step-num">•</span>Did this involve money, your accounts, or threatening messages?</li><li><span class="step-num">•</span>Where did it happen — WhatsApp, email, phone call, or a website?</li></ul><br>The more you share, the better I can help. 🙏`;
 }
 
-function sendMessage(){
-  const input=document.getElementById('userInput');
-  const text=input.value.trim();
-  if(!text)return;
-  addMessage(text,'user');
-  input.value='';
+function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if(!text) return;
+  addMessage(text, 'user');
+  input.value = '';
   showTyping(true);
-  setTimeout(async()=>{
-  try{
-    const response = await fetch('http://127.0.0.1:8000/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message:text})
-    });
-    const data = await response.json();
-    showTyping(false);
-    addMessage(data.reply,'bot');
-  } catch(err){
-    showTyping(false);
-    addMessage('Sorry, I could not connect to the server. Please make sure the backend is running.','bot');
-  }
-},500);
+  setTimeout(async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/chat', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({message:text})
+      });
+      const data = await response.json();
+      showTyping(false);
+      addMessage(data.reply, 'bot');
+    } catch(err) {
+      showTyping(false);
+      addMessage(getReply(text), 'bot');
+    }
+  }, 1200);
 }
 
-function quickReport(text){
-  document.getElementById('userInput').value=text;
+function quickReport(text, label, icon, crimeKey) {
+  document.getElementById('userInput').value = text;
   sendMessage();
+  setTimeout(() => showEvidencePanel(crimeKey, label), 2000);
 }
 </script>
 </body>
