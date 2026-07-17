@@ -13,11 +13,11 @@ import os
 import tempfile
 import time
 from datetime import datetime
-from google import genai
+from groq import Groq
 
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 app = FastAPI()
 
@@ -38,6 +38,19 @@ class FIRRequest(BaseModel):
     uploadedFiles: list
     victimName: str = "Complainant"
 
+SYSTEM_PROMPT = """You are CyberAegis, an AI-powered cybercrime first responder assistant for India.
+Your job is to help victims who have been scammed, hacked, harassed, or cheated online.
+Always:
+- Identify the type of cybercrime from what the user describes
+- Mention the relevant Indian law section (IT Act 2000/2008 or IPC)
+- Give clear step by step instructions on what to do next
+- Tell them what evidence to collect and preserve
+- Guide them to report at cybercrime.gov.in or call 1930
+- Be empathetic, calm, and supportive
+- Keep responses clear and easy to understand
+- Never ask for personal sensitive information like passwords or OTPs
+Respond in English only."""
+
 @app.get("/")
 def root():
     return {"status": "CyberAegis backend is running!"}
@@ -45,12 +58,16 @@ def root():
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
-        time.sleep(1)
-        response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=request.message
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": request.message}
+            ],
+            max_tokens=1024,
+            temperature=0.7,
         )
-        reply = response.text
+        reply = response.choices[0].message.content
         return {"reply": reply}
     except Exception as e:
         return {"reply": f"Sorry, something went wrong: {str(e)}"}
@@ -96,7 +113,6 @@ async def generate_fir(request: FIRRequest):
         story = []
         now = datetime.now()
 
-        # HEADER
         story.append(Paragraph("CyberAegis", title_style))
         story.append(Paragraph("AI Cybercrime First Responder — India", subtitle_style))
         story.append(Spacer(1, 4*mm))
@@ -112,7 +128,6 @@ async def generate_fir(request: FIRRequest):
         story.append(HRFlowable(width="100%", thickness=1, color=HexColor("#E4E8FF")))
         story.append(Spacer(1, 4*mm))
 
-        # CASE DETAILS
         story.append(Paragraph("CASE DETAILS", section_style))
         case_data = [
             ["Report Date", now.strftime("%d %B %Y")],
@@ -136,7 +151,6 @@ async def generate_fir(request: FIRRequest):
         story.append(case_table)
         story.append(Spacer(1, 4*mm))
 
-        # APPLICABLE LAWS
         story.append(Paragraph("APPLICABLE LAW SECTIONS", section_style))
         for law in request.laws:
             code = law.get('code','') if isinstance(law, dict) else str(law)
@@ -157,7 +171,6 @@ async def generate_fir(request: FIRRequest):
             story.append(Spacer(1, 2*mm))
         story.append(Spacer(1, 2*mm))
 
-        # EVIDENCE
         checked = [i for i in request.checklist if i.get('checked', False)]
         pending = [i for i in request.checklist if not i.get('checked', False)]
 
@@ -180,7 +193,6 @@ async def generate_fir(request: FIRRequest):
 
         story.append(Spacer(1, 4*mm))
 
-        # UPLOADED FILES
         story.append(Paragraph("EVIDENCE FILES ATTACHED", section_style))
         if request.uploadedFiles:
             for fname in request.uploadedFiles:
@@ -191,7 +203,6 @@ async def generate_fir(request: FIRRequest):
                 fontName='Helvetica-Oblique')))
         story.append(Spacer(1, 4*mm))
 
-        # NEXT STEPS
         story.append(HRFlowable(width="100%", thickness=1, color=HexColor("#E4E8FF")))
         story.append(Spacer(1, 3*mm))
         story.append(Paragraph("RECOMMENDED NEXT STEPS", section_style))
@@ -206,7 +217,6 @@ async def generate_fir(request: FIRRequest):
             story.append(Paragraph(step, body_style))
         story.append(Spacer(1, 6*mm))
 
-        # FOOTER
         story.append(HRFlowable(width="100%", thickness=2, color=PURPLE))
         story.append(Spacer(1, 3*mm))
         story.append(Paragraph(
